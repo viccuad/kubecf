@@ -1,4 +1,4 @@
-# 4. build script framework in bash
+# 4. build script framework
 
 Date: 2020-06-05
 
