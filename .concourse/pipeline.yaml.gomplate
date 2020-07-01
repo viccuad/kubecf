@@ -515,6 +515,10 @@ jobs:
             - -ce
             - |
 
+              if [ "${BRANCH}" = "release-2.3" ]; then
+                exit 0
+              fi
+
               # Login to gcloud
               printf "%s" '((gke-suse-cap-json))' > $PWD/gke-key.json
               gcloud auth activate-service-account --key-file $PWD/gke-key.json
@@ -1417,6 +1421,7 @@ jobs:
           << : *upgrade-test_{{ $sanitized_branch_name }}_status
           state: failure
 {{- end }}
+{{- if not ($branch | regexp.Match "2.3") }}
   ensure:
     do:
       - << : *cleanup-cluster
@@ -1425,6 +1430,7 @@ jobs:
           CFSCHEDULER: upgrade
         input_mapping:
           semver.gke-cluster: semver.gke-cluster-{{ $branch }}-upgrade
+{{- end }}
 
 {{ if not ($branch | regexp.Match "^pr") }}
 - name: publish-{{ $branch }}
