@@ -113,7 +113,7 @@ resources:
   source:
     uri: https://github.com/SUSE/catapult
   version:
-    ref: 782c1af643fa6d03337a26434ddcd7613441774a
+    ref: d5fdad42a526073306b6c8090f4c92a958e9c881
 
 - name: s3.kubecf-ci
   type: s3
@@ -751,7 +751,11 @@ jobs:
       - name: kubecf
       - name: semver.gke-cluster
       params:
+        {{- if eq $cfScheduler "eirini" }}
+        KUBECF_TEST_SUITE: cats-eirini
+        {{- else }}
         KUBECF_TEST_SUITE: cats
+        {{- end }}
         BRANCH: {{ $branch }}
         CFSCHEDULER: {{ $cfScheduler }}
       run:
