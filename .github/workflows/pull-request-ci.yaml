@@ -199,14 +199,21 @@ jobs:
           echo "::set-env name=SSH_AUTH_SOCK::${SSH_AUTH_SOCK}"
           echo "::set-env name=SSH_AGENT_PID::${SSH_AGENT_PID}"
 
-      # set GKE secret. TBD: use vault instead
+      - name: Query vault for GKE secrets
+        id: vault
+        uses: hashicorp/vault-action@v2.0.1
+        with:
+          url: https://volt.cap.explore.suse.dev/
+          token: ${{ secrets.VAULT_TOKEN }}
+          secrets: |
+	    secret/data/cloud-providers "gke.GKE_CRED_JSON" | GKE_CRED_JSON
+
+      # set GKE secret.
       - name: set GKE_CRED_JSON
         run: |
           json_file="$(mktemp)"
           echo "$GKE_CRED_JSON" > "${json_file}"
           echo "::set-env name=GKE_CRED_JSON::${json_file}"
-        env:
-          GKE_CRED_JSON: ${{ secrets.GKE_CRED_JSON }}
 
       # Cache catapult's common tools
       - name: cache.catapult-common-tools
