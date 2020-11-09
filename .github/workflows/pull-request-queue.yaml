@@ -18,6 +18,7 @@ jobs:
         id: vault
         uses: hashicorp/vault-action@v2.0.1
         with:
+          exportEnv: false
           url: https://volt.cap.explore.suse.dev/
           token: ${{ secrets.VAULT_TOKEN }}
           secrets: |

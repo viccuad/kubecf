@@ -203,6 +203,7 @@ jobs:
         id: vault
         uses: hashicorp/vault-action@v2.0.1
         with:
+          exportEnv: false
           url: https://volt.cap.explore.suse.dev/
           token: ${{ secrets.VAULT_TOKEN }}
           secrets: |
@@ -212,7 +213,7 @@ jobs:
       - name: set GKE_CRED_JSON
         run: |
           json_file="$(mktemp)"
-          echo "$GKE_CRED_JSON" > "${json_file}"
+          echo "${{ steps.vault.outputs.GKE_CRED_JSON }}" > "${json_file}"
           echo "::set-env name=GKE_CRED_JSON::${json_file}"
 
       # Cache catapult's common tools
