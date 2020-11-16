@@ -207,7 +207,7 @@ jobs:
           url: https://volt.cap.explore.suse.dev/
           token: ${{ secrets.VAULT_TOKEN }}
           secrets: |
-            secret/data/cloud-providers "gke.GKE_CRED_JSON" | GKE_CRED_JSON
+            secret/data/cloud-providers gke.GKE_CRED_JSON | GKE_CRED_JSON
 
       # set GKE secret.
       - name: set GKE_CRED_JSON
