@@ -39,3 +39,4 @@ jobs:
 
       # Check lint
       - run: make lint
+        if: false
